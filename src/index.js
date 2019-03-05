@@ -5,30 +5,69 @@ import {
     createAppContainer,
     createStackNavigator
 } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Home from './pages/Home'
 import AddDevice from './pages/AddDevice'
 import MyAccount from './pages/MyAccount'
 
 class HomeScreen extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitleStyle: {
+                alignSelf: 'center',
+                textAlign: 'center',
+                flex: 1
+            },
+            title: 'Home',
+            headerStyle: {
+                backgroundColor: '#fff',
+            },
+            headerTintColor: '#808080',
+            headerTintStyle: {
+                fontWeight: 'bold',
+            },
+            headerRight: (
+                <Icon style={{ marginRight: 15 }} name="ios-person" size={40} color="#4F8EF7"
+                    onPress={() => navigation.navigate('MyAccount')} />
+            ),
+            headerLeft: (
+                <Icon style={{ marginLeft: 15 }} name="ios-add" size={50} color="#4F8EF7"
+                    onPress={() => navigation.navigate('AddDevice')} />
+            )
+        }
+    };
     render() {
         return (
             <View style={styles.container}>
                 <Home />
-                <Button 
-                    title="go to AddDevice"
-                    onPress={()=>this.props.navigation.navigate('AddDevice')}
-                />
-                <Button 
-                    title="go to MyAccount"
-                    onPress={()=>this.props.navigation.navigate('MyAccount')}
-                />
             </View>
         )
     }
 }
 
 class AddDeviceScreen extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitleStyle: {
+                alignSelf: 'center',
+                // textAlign: 'center',
+                flex: 1
+            },
+            title: 'New Device',
+            headerStyle: {
+                backgroundColor: '#fff',
+            },
+            headerTintColor: '#808080',
+            headerTintStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: (
+                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={40} color="#4F8EF7"
+                    onPress={() => navigation.navigate('Home')} />
+            )
+        }
+    };
     render() {
         return (
             <View style={styles.container}>
@@ -39,6 +78,27 @@ class AddDeviceScreen extends Component {
 }
 
 class MyAccountScreen extends Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitleStyle: {
+                alignSelf: 'center',
+                // textAlign: 'center',
+                flex: 1
+            },
+            title: 'My Account',
+            headerStyle: {
+                backgroundColor: '#fff',
+            },
+            headerTintColor: '#808080',
+            headerTintStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: (
+                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={40} color="#4F8EF7"
+                    onPress={() => navigation.navigate('Home')} />
+            )
+        }
+    };
     render() {
         return (
             <View style={styles.container}>
@@ -48,7 +108,7 @@ class MyAccountScreen extends Component {
     }
 }
 
-const AppNavigator = createSwitchNavigator(
+const AppNavigator = createStackNavigator(
     {
         Home: HomeScreen,
         AddDevice: AddDeviceScreen,
@@ -59,10 +119,10 @@ const AppNavigator = createSwitchNavigator(
         initialRouteName: "Home"
     });
 
-const AppContainer =  createAppContainer(AppNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
-export default class App extends Component{
-    render(){
+export default class App extends Component {
+    render() {
         return <AppContainer />
     }
 }
