@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, StatusBar } from 'react-native';
 import {
     createSwitchNavigator,
     createAppContainer,
@@ -21,25 +21,28 @@ class HomeScreen extends Component {
             },
             title: 'Home',
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#287bef',
             },
-            headerTintColor: '#808080',
+            headerTintColor: '#fff',
             headerTintStyle: {
-                fontWeight: 'bold',
+                //fontWeight: 'bold',
             },
+
             headerRight: (
-                <Icon style={{ marginRight: 15 }} name="ios-person" size={40} color="#4F8EF7"
+                <Icon style={{ marginRight: 15 }} name="ios-settings" size={28} color="#fff"
                     onPress={() => navigation.navigate('MyAccount')} />
             ),
             headerLeft: (
-                <Icon style={{ marginLeft: 15 }} name="ios-add" size={50} color="#4F8EF7"
-                    onPress={() => navigation.navigate('AddDevice')} />
+                <Icon style={{ marginLeft: 15 }} name="ios-add" size={33} color="#fff"
+                    onPress={() => navigation.navigate('AddDevice')} /> 
+                    
             )
         }
     };
     render() {
         return (
             <View style={styles.container}>
+            <StatusBar backgroundColor="#287bef" barStyle="light-content" />
                 <Home />
             </View>
         )
@@ -56,14 +59,14 @@ class AddDeviceScreen extends Component {
             },
             title: 'New Device',
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#287bef',
             },
-            headerTintColor: '#808080',
+            headerTintColor: '#fff',
             headerTintStyle: {
-                fontWeight: 'bold',
+                //fontWeight: 'bold',
             },
             headerLeft: (
-                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={40} color="#4F8EF7"
+                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
             )
         }
@@ -87,14 +90,14 @@ class MyAccountScreen extends Component {
             },
             title: 'My Account',
             headerStyle: {
-                backgroundColor: '#fff',
+                backgroundColor: '#287bef',
             },
-            headerTintColor: '#808080',
+            headerTintColor: '#fff',
             headerTintStyle: {
-                fontWeight: 'bold',
-            },
+                //fontWeight: 'bold',
+            }, 
             headerLeft: (
-                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={40} color="#4F8EF7"
+                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
             )
         }
