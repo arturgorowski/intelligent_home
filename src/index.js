@@ -5,7 +5,8 @@ import {
     createAppContainer,
     createStackNavigator
 } from 'react-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 import Home from './pages/Home'
 import AddDevice from './pages/AddDevice'
@@ -29,11 +30,11 @@ class HomeScreen extends Component {
             },
 
             headerRight: (
-                <Icon style={{ marginRight: 15 }} name="ios-settings" size={28} color="#fff"
+                <Ionicons style={{ marginRight: 15 }} name="ios-settings" size={28} color="#fff"
                     onPress={() => navigation.navigate('MyAccount')} />
             ),
             headerLeft: (
-                <Icon style={{ marginLeft: 15 }} name="ios-add" size={33} color="#fff"
+                <Ionicons style={{ marginLeft: 15}} name="ios-add" size={33} color="#fff"
                     onPress={() => navigation.navigate('AddDevice')} /> 
                     
             )
@@ -66,7 +67,7 @@ class AddDeviceScreen extends Component {
                 //fontWeight: 'bold',
             },
             headerLeft: (
-                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+                <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
             )
         }
@@ -97,7 +98,7 @@ class MyAccountScreen extends Component {
                 //fontWeight: 'bold',
             }, 
             headerLeft: (
-                <Icon style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+                <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
             )
         }
@@ -116,7 +117,7 @@ const AppNavigator = createStackNavigator(
         Home: HomeScreen,
         AddDevice: AddDeviceScreen,
         MyAccount: MyAccountScreen
-
+        
     },
     {
         initialRouteName: "Home"
