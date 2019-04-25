@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button, StatusBar } from 'react-native';
-import {
-    createSwitchNavigator,
-    createAppContainer,
-    createStackNavigator
-} from 'react-navigation';
+import { createSwitchNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-import Home from './pages/Home'
-import AddDevice from './pages/AddDevice'
-import MyAccount from './pages/MyAccount'
+import Home from './pages/Home';
+import AddDevice from './pages/AddDevice';
+import MyAccount from './pages/MyAccount';
 
 class HomeScreen extends Component {
     static navigationOptions = ({ navigation }) => {

@@ -1,14 +1,7 @@
 import React, { Component } from 'react'
-import {
-    View,
-    Text,
-    StyleSheet,
-    Dimensions,
-    
-} from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('screen');
 
@@ -16,7 +9,6 @@ export default class MyAccount extends Component {
 
     constructor(props) {
         super(props);
-
     }
 
     render() {
