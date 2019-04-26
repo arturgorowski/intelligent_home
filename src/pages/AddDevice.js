@@ -92,7 +92,7 @@ export default class AddDevice extends Component {
     );
   }
 }
-
+//styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
