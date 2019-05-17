@@ -1,118 +1,51 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Button, StatusBar } from 'react-native';
-import { createSwitchNavigator, createAppContainer, createStackNavigator } from 'react-navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import Home from './pages/Home';
 import AddDevice from './pages/AddDevice';
 import MyAccount from './pages/MyAccount';
 
-class HomeScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitleStyle: {
-                alignSelf: 'center',
-                textAlign: 'center',
-                flex: 1
-            },
-            title: 'Home',
-            headerStyle: {
-                backgroundColor: '#287bef',
-            },
-            headerTintColor: '#fff',
-            headerTintStyle: {
-                //fontWeight: 'bold',
-            },
-
-            headerRight: (
-                <Ionicons style={{ marginRight: 15 }} name="ios-settings" size={28} color="#fff"
-                    onPress={() => navigation.navigate('MyAccount')} />
-            ),
-            headerLeft: (
-                <Ionicons style={{ marginLeft: 15}} name="ios-add" size={33} color="#fff"
-                    onPress={() => navigation.navigate('AddDevice')} /> 
-                    
-            )
-        }
-    };
-    render() {
-        return (
-            <View style={styles.container}>
-            <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-                <Home />
-            </View>
-        )
-    }
-}
-
-class AddDeviceScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitleStyle: {
-                alignSelf: 'center',
-                // textAlign: 'center',
-                flex: 1
-            },
-            title: 'New Device',
-            headerStyle: {
-                backgroundColor: '#287bef',
-            },
-            headerTintColor: '#fff',
-            headerTintStyle: {
-                //fontWeight: 'bold',
-            },
-            headerLeft: (
-                <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-                    onPress={() => navigation.navigate('Home')} />
-            )
-        }
-    };
-    render() {
-        return (
-            <View style={styles.container}>
-                <AddDevice />
-            </View>
-        )
-    }
-}
-
-class MyAccountScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitleStyle: {
-                alignSelf: 'center',
-                // textAlign: 'center',
-                flex: 1
-            },
-            title: 'My Account',
-            headerStyle: {
-                backgroundColor: '#287bef',
-            },
-            headerTintColor: '#fff',
-            headerTintStyle: {
-                //fontWeight: 'bold',
-            }, 
-            headerLeft: (
-                <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-                    onPress={() => navigation.navigate('Home')} />
-            )
-        }
-    };
-    render() {
-        return (
-            <View style={styles.container}>
-                <MyAccount />
-            </View>
-        )
-    }
-}
+import Light from './pages/addDeviceScreens/Light';
+import Blinds from './pages/addDeviceScreens/Blinds';
+import AirConditioning from './pages/addDeviceScreens/AirConditioning';
+import Heating from './pages/addDeviceScreens/Heating';
+import Sound from './pages/addDeviceScreens/Sound';
+import Alarm from './pages/addDeviceScreens/Alarm';
+import Cameras from './pages/addDeviceScreens/Cameras';
+import FrontDoor from './pages/addDeviceScreens/FrontDoor';
+import GarageDoor from './pages/addDeviceScreens/GarageDoor';
+import Gate from './pages/addDeviceScreens/Gate';
+import WeatherStation from './pages/addDeviceScreens/WeatherStation';
+import Fridge from './pages/addDeviceScreens/Fridge';
+import TV from './pages/addDeviceScreens/TV';
+import Washer from './pages/addDeviceScreens/Washer';
+import Oven from './pages/addDeviceScreens/Oven';
+import Printer from './pages/addDeviceScreens/Printer';
+import AddingScreen from './pages/addDeviceScreens/AddingScreen';
 
 const AppNavigator = createStackNavigator(
     {
-        Home: HomeScreen,
-        AddDevice: AddDeviceScreen,
-        MyAccount: MyAccountScreen
-        
+        Home: Home,
+        AddDevice: AddDevice,
+        MyAccount: MyAccount,
+
+        Light: Light,
+        Blinds: Blinds,
+        'Air conditioning': AirConditioning,
+        Heating: Heating,
+        Sound: Sound,
+        Alarm: Alarm,
+        Cameras: Cameras,
+        'Front door': FrontDoor,
+        'Garage door': GarageDoor,
+        Gate: Gate,
+        'Weather station': WeatherStation,
+        Fridge: Fridge,
+        TV: TV,
+        Washer: Washer,
+        Oven: Oven,
+        Printer: Printer,
+        AddingScreen: AddingScreen
     },
     {
         initialRouteName: "Home"
@@ -120,17 +53,9 @@ const AppNavigator = createStackNavigator(
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default class App extends Component {
+export default class App extends React.Component {
     render() {
         return <AppContainer />
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
 

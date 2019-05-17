@@ -5,15 +5,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('screen');
 
-export default class Home extends React.Component {
+export default class GarageDoor extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitleStyle: {
         alignSelf: 'center',
-        textAlign: 'center',
+        //textAlign: 'center',
         flex: 1
       },
-      title: 'Home',
+      title: 'Sound',
       headerStyle: {
         backgroundColor: '#287bef',
       },
@@ -21,23 +21,17 @@ export default class Home extends React.Component {
       headerTintStyle: {
         //fontWeight: 'bold',
       },
-
-      headerRight: (
-        <Ionicons style={{ marginRight: 15 }} name="ios-settings" size={28} color="#fff"
-          onPress={() => navigation.navigate('MyAccount')} />
-      ),
       headerLeft: (
-        <Ionicons style={{ marginLeft: 15 }} name="ios-add" size={33} color="#fff"
-          onPress={() => navigation.navigate('AddDevice')} />
-
-      )
+        <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+            onPress={() => navigation.navigate('AddDevice')} />
+    )
     }
   };
   render() {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-        <Text>This is home screen!</Text>
+        <Text>This is GarageDoor screen!</Text>
       </View>
     )
 
