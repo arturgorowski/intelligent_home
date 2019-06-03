@@ -23,11 +23,11 @@ export default class Home extends React.Component {
       },
 
       headerRight: (
-        <Ionicons style={{ marginRight: 15 }} name="ios-settings" size={28} color="#fff"
+        <Ionicons style={{ flex:1, marginRight: 15 }} name="ios-settings" size={28} color="#fff"
           onPress={() => navigation.navigate('MyAccount')} />
       ),
       headerLeft: (
-        <Ionicons style={{ marginLeft: 15 }} name="ios-add" size={33} color="#fff"
+        <Ionicons style={{ flex:1, marginLeft: 15 }} name="ios-add" size={33} color="#fff"
           onPress={() => navigation.navigate('AddDevice')} />
 
       )

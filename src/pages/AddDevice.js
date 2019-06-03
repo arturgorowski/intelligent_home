@@ -24,7 +24,7 @@ export default class AddDevice extends React.Component {
         
       },
       headerLeft: (
-        <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+        <Ionicons style={{ flex:1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
           onPress={() => navigation.navigate('Home')} />
       )
     //}

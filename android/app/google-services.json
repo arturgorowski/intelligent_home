@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "630513506462",
+    "firebase_url": "https://intelligent-home-f7b44.firebaseio.com",
+    "project_id": "intelligent-home-f7b44",
+    "storage_bucket": "intelligent-home-f7b44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630513506462:android:6db45f157fa78aab",
+        "android_client_info": {
+          "package_name": "com.intelligent_home"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630513506462-4gpjt36ffm98degtunv7eleaasntt41b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_kq3Eh5z1TYmcAdNFb6XoWRCu07HdncU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630513506462-4gpjt36ffm98degtunv7eleaasntt41b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

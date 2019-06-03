@@ -13,7 +13,7 @@ export default class WiFiDevice extends React.Component {
         //textAlign: 'center',
         flex: 1
       },
-      title: 'Air conditioning',
+      title: 'WiFi devices',
       headerStyle: {
         backgroundColor: '#287bef',
       },
@@ -22,7 +22,7 @@ export default class WiFiDevice extends React.Component {
         //fontWeight: 'bold',
       },
       headerLeft: (
-        <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+        <Ionicons style={{ flex:1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
             onPress={() => navigation.navigate('MyAccount')} />
     )
     }
