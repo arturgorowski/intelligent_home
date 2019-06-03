@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import firebase from 'react-native-firebase'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('screen');
 
 export default class MyAccount extends React.Component {
+
+    state = {
+        logged: false,
+        user: ''
+    }
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle: {
@@ -23,7 +29,7 @@ export default class MyAccount extends React.Component {
                 //fontWeight: 'bold',
             },
             headerLeft: (
-                <Ionicons style={{ flex:1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+                <Ionicons style={{ flex: 1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
             )
         }
@@ -33,13 +39,42 @@ export default class MyAccount extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        that = this
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                that.setState({
+                    logged: true,
+                    user: user.email
+                })
+            } else {
+                that.setState({
+                    logged: false
+                })
+            }
+        });
+    }
+
+    signOut = async () => {
+        try {
+            await firebase.auth().signOut();
+            this.props.navigation.navigate('MyAccount')
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     render() {
         return (
             <View style={styles.container}>
                 <View>
                     <TouchableOpacity style={styles.login} onPress={() => this.props.navigation.navigate('Loggin')}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='fingerprint' size={60} color="#4F8EF7" />
-                        <Text style={styles.tileLoginName}>Not logged in</Text>
+                        {
+                            this.state.logged ? <Text style={styles.tileLoginName}>{this.state.user}</Text>
+                                : <Text style={styles.tileLoginName}>Not logged in</Text>
+                        }
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.settings} onPress={() => this.props.navigation.navigate('Settings')}>
@@ -59,9 +94,16 @@ export default class MyAccount extends React.Component {
 
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('LogIn')}>
-                        <Text style={styles.tileTextLog}>Log in</Text>
-                    </TouchableOpacity>
+                    {
+                        this.state.logged ?
+                            <TouchableOpacity style={styles.logIn} onPress={() => this.signOut()}>
+                                <Text style={styles.tileTextLog}>Sign Out</Text>
+                            </TouchableOpacity>
+                            : <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignIn')}>
+                                <Text style={styles.tileTextLog}>Log in</Text>
+                            </TouchableOpacity>
+                    }
+
                 </View>
             </View>
         )

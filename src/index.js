@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
 import Home from './pages/Home';
+
 import AddDevice from './pages/AddDevice';
+
 import MyAccount from './pages/MyAccount';
+import SignIn from './pages/myAccount/login/SignIn'
+import SignUp from './pages/myAccount/login/SignUp'
 
 import Light from './pages/addDeviceScreens/Light';
 import Blinds from './pages/addDeviceScreens/Blinds';
@@ -30,9 +34,13 @@ import WiFiDevice from './pages/myAccount/WiFiDevice';
 const AppNavigator = createStackNavigator(
     {
         Home: Home,
-        AddDevice: AddDevice,
-        MyAccount: MyAccount,
 
+        AddDevice: AddDevice,
+
+        MyAccount: MyAccount,
+        SignIn: SignIn,
+        SignUp: SignUp,
+        
         Light: Light,
         Blinds: Blinds,
         'Air conditioning': AirConditioning,
