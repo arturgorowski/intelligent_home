@@ -23,6 +23,10 @@ import Oven from './pages/addDeviceScreens/Oven';
 import Printer from './pages/addDeviceScreens/Printer';
 import AddingScreen from './pages/addDeviceScreens/AddingScreen';
 
+import Settings from './pages/myAccount/Settings';
+import BTdevice from './pages/myAccount/BTdevice';
+import WiFiDevice from './pages/myAccount/WiFiDevice';
+
 const AppNavigator = createStackNavigator(
     {
         Home: Home,
@@ -45,7 +49,11 @@ const AppNavigator = createStackNavigator(
         Washer: Washer,
         Oven: Oven,
         Printer: Printer,
-        AddingScreen: AddingScreen
+        AddingScreen: AddingScreen,
+
+        Settings: Settings,
+        BTdevice: BTdevice,
+        WiFiDevice: WiFiDevice
     },
     {
         initialRouteName: "Home"

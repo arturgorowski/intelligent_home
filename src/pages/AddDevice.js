@@ -21,6 +21,7 @@ export default class AddDevice extends React.Component {
       headerTintColor: '#fff',
       headerTintStyle: {
         //fontWeight: 'bold',
+        
       },
       headerLeft: (
         <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
@@ -121,17 +122,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+
   tile: {
     width: ((window.width) - 8) / 2,
+    backgroundColor: "white",
     height: 200,
     margin: 2,
     justifyContent: 'center',
     borderRadius: 4,
     borderWidth: 0.1,
     borderColor: '#838c99',
-
   },
+
   rowOfTiles: {
+    backgroundColor: "#edf0f4",
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },

@@ -37,29 +37,29 @@ export default class MyAccount extends React.Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <TouchableOpacity style={styles.login}>
+                    <TouchableOpacity style={styles.login} onPress={() => this.props.navigation.navigate('Loggin')}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='fingerprint' size={60} color="#4F8EF7" />
                         <Text style={styles.tileLoginName}>Not logged in</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.settings}>
+                    <TouchableOpacity style={styles.settings} onPress={() => this.props.navigation.navigate('Settings')}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='settings' size={35} color="#4F8EF7" />
                         <Text style={styles.tileTextName}>Settings</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.settings}>
+                    <TouchableOpacity style={styles.settings} onPress={() => this.props.navigation.navigate('BTdevice')}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='bluetooth' size={35} color="#4F8EF7" />
                         <Text style={styles.tileTextName}>Available BT devices</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.settings}>
+                    <TouchableOpacity style={styles.settings} onPress={() => this.props.navigation.navigate('WiFiDevice')}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='wifi' size={35} color="#4F8EF7" />
                         <Text style={styles.tileTextName}>Available WiFi devices</Text>
                     </TouchableOpacity>
 
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.logIn}>
+                    <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('LogIn')}>
                         <Text style={styles.tileTextLog}>Log in</Text>
                     </TouchableOpacity>
                 </View>
@@ -71,7 +71,9 @@ export default class MyAccount extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: window.height
+        backgroundColor: "#edf0f4",
+        height: window.height,
+        justifyContent: "space-between"
     },
     login: {
         width: (window.width) - 4,
@@ -81,10 +83,11 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderWidth: 0.1,
         borderColor: '#838c99',
-
+        backgroundColor: "white",
         flexDirection: 'row',
         alignItems: 'center',
     },
+
     settings: {
         width: (window.width) - 4,
         height: 80,
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderWidth: 0.1,
         borderColor: '#838c99',
-
+        backgroundColor: "white",
         flexDirection: 'row',
         alignItems: 'center'
     },
@@ -118,8 +121,7 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         borderWidth: 0.1,
         borderColor: '#838c99',
-
-        //alignContent: 'flex-end',
+        backgroundColor: "white",
         alignItems: 'center',
         justifyContent: 'space-around',
         alignSelf: 'center'
