@@ -3,7 +3,6 @@ import { StyleSheet, Text, TextInput, View, Image, ActivityIndicator, Dimensions
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firebase from 'react-native-firebase'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const window = Dimensions.get('screen');
 type Props = {};
@@ -106,14 +105,12 @@ export default class SignIn extends Component<Props> {
                         <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignUp')}>
                             <Text>Don't have an account? Sign Up</Text>
                         </TouchableOpacity>
-
                     </View>
                 </KeyboardAvoidingView>
             )
         }
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,

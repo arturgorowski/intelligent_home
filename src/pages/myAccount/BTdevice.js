@@ -2,10 +2,40 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { BleManager } from 'react-native-ble-plx';
 
 const window = Dimensions.get('screen');
 
 export default class BTdevice extends React.Component {
+  constructor(props) {
+    super(props);
+    this.manager = new BleManager();
+  }
+
+  componentWillMount(){
+    const subscription = this.manager.onStateChange( (state)=>{
+      if (state === 'PoweredOn'){
+        this.scanAndConnect();
+        subscription.remove();
+      }
+    }, true)
+  }
+
+  scanAndConnect() {
+    this.manager.startDeviceScan(null, null, (error, device) => {
+      if (error) {
+        // Handle error (scanning will be stopped automatically)
+        console.log(error)
+        return
+      }
+      console.log(device)
+      //Check if it is a device you are looking for based on advertisement data
+      //or other criteria.
+      
+    });
+  }
+
+
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitleStyle: {
@@ -13,7 +43,7 @@ export default class BTdevice extends React.Component {
         //textAlign: 'center',
         flex: 1
       },
-      title: 'Air conditioning',
+      title: 'BT devices',
       headerStyle: {
         backgroundColor: '#287bef',
       },
@@ -22,9 +52,9 @@ export default class BTdevice extends React.Component {
         //fontWeight: 'bold',
       },
       headerLeft: (
-        <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-            onPress={() => navigation.navigate('MyAccount')} />
-    )
+        <Ionicons style={{ flex:10, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+          onPress={() => navigation.navigate('MyAccount')} />
+      )
     }
   };
   render() {

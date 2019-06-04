@@ -3,6 +3,7 @@ package com.intelligent_home;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.polidea.reactnativeble.BlePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BlePackage(),
             new RNFirebasePackage(),
               new RNFirebaseAuthPackage(),
             new VectorIconsPackage(),

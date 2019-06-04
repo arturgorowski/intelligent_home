@@ -60,7 +60,7 @@ export default class SignUp extends Component<Props> {
 
         firebase
             .auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .createUserWithEmailAndPassword(this.state.email, this.state.passwordOne)
             .then(() => this.props.navigation.navigate('MyAccount'))
             .catch(error => this.setState({ errorMessage: error.message }))
         this.setState({

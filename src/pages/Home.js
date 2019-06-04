@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, StatusBar, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -37,7 +37,7 @@ export default class Home extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-        <Text>This is home screen!</Text>
+        <Image style={styles.logo} source={require('../assets/logo_transparent.png')} />
       </View>
     )
 
@@ -50,6 +50,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  logo:{
+    width: 350,
+    height: 350,
+    opacity: 0.5
+},
 
 
 });
