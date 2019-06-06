@@ -33,6 +33,8 @@ export default class SignUp extends Component<Props> {
         super();
     }
     state = {
+        first_name: '',
+        last_name: '',
         email: '',
         passwordOne: '',
         passwordTwo: '',
@@ -40,13 +42,31 @@ export default class SignUp extends Component<Props> {
         isLoading: false
     }
 
-    handleLogin = () => {
-        const { email, passwordOne, passwordTwo } = this.state
+    addUserToDatabase() {
+        fetch('https://intelligent-home.herokuapp.com/post/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            first_name: this.state.first_name, 
+            last_name: this.state.last_name, 
+            email: this.state.email
+          })
+    
+        }).then(res => res.json())
+          .catch((error) => {
+            throw error
+          });
+    }
 
-        if (email === '' || passwordOne === '' ) {
+    handleLogin = () => {
+        const { first_name, last_name, email, passwordOne, passwordTwo } = this.state
+
+        if (first_name === '' || last_name === '' || email === '' || passwordOne === '' ) {
             this.setState({
                 incorrect: true,
-                errorMessage: 'Both login and password need to be filled.'
+                errorMessage: 'All fields must be filled.'
             });
             return;
         }
@@ -58,6 +78,8 @@ export default class SignUp extends Component<Props> {
             return
         }
 
+        
+
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.passwordOne)
@@ -66,6 +88,11 @@ export default class SignUp extends Component<Props> {
         this.setState({
             isLoading: false
         })
+
+        if (this.state.errorMessage === null){
+            this.addUserToDatabase()
+        }
+            
     }
 
 
@@ -80,16 +107,37 @@ export default class SignUp extends Component<Props> {
             )
         } else {
             return (
-                <KeyboardAvoidingView behavior="padding" style={styles.container}>
+                <KeyboardAvoidingView behavior='position' style={styles.container}>
                     <View style={styles.input}>
                         <Image style={styles.logo} source={require('../../../assets/logo_transparent.png')} />
                         <TextInput
                             style={styles.textInput}
                             returnKeyType="next"
+                            autoCapitalize='none'
+                            placeholder="First name"
+                            onChangeText={first_name => this.setState({ first_name })}
+                            value={this.state.first_name}
+                            onSubmitEditing={() => this.last_name.focus()}
+                        />
+                        <TextInput
+                            style={styles.textInput}
+                            returnKeyType="next"
+                            autoCapitalize="none"
+                            placeholder="Last name"
+                            onChangeText={last_name => this.setState({ last_name })}
+                            value={this.state.last_name}
+                            ref={(input) => this.last_name = input}
+                            onSubmitEditing={() => this.email.focus()}
+                        />
+                        <TextInput
+                            style={styles.textInput}
+                            keyboardType='email-address'
+                            returnKeyType="next"
                             autoCapitalize="none"
                             placeholder="Email"
                             onChangeText={email => this.setState({ email })}
                             value={this.state.email}
+                            ref={(input) => this.email = input}
                             onSubmitEditing={() => this.passwordOneInput.focus()}
                         />
                         <TextInput
@@ -163,7 +211,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     logIn: {
-        width: (window.width) - 40,
+        width: (window.width) - 100,
         height: 40,
         marginBottom: 15,
         borderRadius: 30,

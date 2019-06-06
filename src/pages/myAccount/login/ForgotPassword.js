@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const window = Dimensions.get('screen');
 type Props = {};
 
-export default class SignIn extends Component<Props> {
+export default class ForgotPassword extends Component<Props> {
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle: {
@@ -15,7 +15,7 @@ export default class SignIn extends Component<Props> {
                 // textAlign: 'center',
                 flex: 1
             },
-            title: 'Sign In',
+            title: 'Send password reset',
             headerStyle: {
                 backgroundColor: '#287bef',
             },
@@ -25,7 +25,7 @@ export default class SignIn extends Component<Props> {
             },
             headerLeft: (
                 <Ionicons style={{ flex: 1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-                    onPress={() => navigation.navigate('MyAccount')} />
+                    onPress={() => navigation.navigate('SignIn')} />
             )
         }
     };
@@ -34,65 +34,41 @@ export default class SignIn extends Component<Props> {
     }
     state = {
         email: '',
-        password: '',
-        errorMessage: null,
-        isLoading: false
+        errorMessage: null
     }
 
-    handleLogin = () => {
-        const { email, password } = this.state
+    passwordReset = () => {
+        const { email } = this.state
 
-        if (this.state.login === '' || this.state.password === '') {
+        if (this.state.email === '') {
             this.setState({
                 incorrect: true,
-                errorMessage: 'Both login and password need to be filled.'
+                errorMessage: 'The field Email should be filled out.'
             });
             return;
         }
 
         firebase
             .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('MyAccount'))
+            .sendPasswordResetEmail(email)
+            .then(() => this.props.navigation.navigate('SignIn'))
             .catch(error => this.setState({ errorMessage: error.message }))
-        this.setState({
-            isLoading: false
-        })
     }
 
     render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.container}>
-                    <Text>Loading</Text>
-                    <ActivityIndicator size="large" />
-                </View>
-            )
-        } else {
-            return (
-                <KeyboardAvoidingView behavior="position" style={styles.container}>
+        return (
+            <KeyboardAvoidingView behavior="position" style={styles.container}>
                     <View style={styles.input}>
                         <Image style={styles.logo} source={require('../../../assets/logo_transparent.png')} />
 
                         <TextInput
                             style={styles.textInput}
                             keyboardType='email-address'
-                            returnKeyType="next"
+                            returnKeyType="go"
                             autoCapitalize="none"
                             placeholder="Email"
                             onChangeText={email => this.setState({ email })}
                             value={this.state.email}
-                            onSubmitEditing={() => this.passwordInput.focus()}
-                        />
-                        <TextInput
-                            secureTextEntry
-                            returnKeyType="go"
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            placeholder="Password"
-                            onChangeText={password => this.setState({ password })}
-                            value={this.state.password}
-                            ref={(input) => this.passwordInput = input}
                         />
                         {this.state.errorMessage &&
                             <Text style={{ color: 'red' }}>
@@ -100,23 +76,15 @@ export default class SignIn extends Component<Props> {
                             </Text>}
                     </View>
                     <View>
-                        <TouchableOpacity style={styles.logIn} onPress={this.handleLogin}>
-                            <Text style={styles.tileTextLog}>Log in</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignUp')}>
-                            <Text>Don't have an account? Sign Up</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.passwordForgot} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-                            <Text>Forgot Password?</Text>
+                        <TouchableOpacity style={styles.logIn} onPress={()=>this.passwordReset()}>
+                            <Text style={styles.tileTextLog}>Reset password</Text>
                         </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
-            )
-        }
+        )
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -137,18 +105,6 @@ const styles = StyleSheet.create({
         height: 40,
         marginBottom: 15,
         borderRadius: 7,
-        borderWidth: 0.1,
-        borderColor: '#838c99',
-        backgroundColor: "white",
-        alignItems: 'center',
-        justifyContent: 'space-around',
-        alignSelf: 'center'
-    },
-    passwordForgot:{
-        width: (window.width) - 200,
-        height: 40,
-        marginBottom: 15,
-        borderRadius: 30,
         borderWidth: 0.1,
         borderColor: '#838c99',
         backgroundColor: "white",

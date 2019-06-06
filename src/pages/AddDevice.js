@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions, ActivityIndicator, StatusBar } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView, Dimensions, ActivityIndicator, StatusBar, RefreshControl } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import _ from 'lodash';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -8,25 +9,25 @@ const window = Dimensions.get('screen');
 
 export default class AddDevice extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    
-      headerTitleStyle: {
-        alignSelf: 'center',
-        // textAlign: 'center',
-        flex: 1
-      },
-      title: 'New Device',
-      headerStyle: {
-        backgroundColor: '#287bef',
-      },
-      headerTintColor: '#fff',
-      headerTintStyle: {
-        //fontWeight: 'bold',
-        
-      },
-      headerLeft: (
-        <Ionicons style={{ flex:10, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-          onPress={() => navigation.navigate('Home')} />
-      )
+
+    headerTitleStyle: {
+      alignSelf: 'center',
+      // textAlign: 'center',
+      flex: 1
+    },
+    title: 'New Device',
+    headerStyle: {
+      backgroundColor: '#287bef',
+    },
+    headerTintColor: '#fff',
+    headerTintStyle: {
+      //fontWeight: 'bold',
+
+    },
+    headerLeft: (
+      <Ionicons style={{ flex: 10, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
+        onPress={() => navigation.navigate('Home')} />
+    )
     //}
   });
 
@@ -36,13 +37,22 @@ export default class AddDevice extends React.Component {
     this.state = {
       devices: [],
       isLoading: true,
-      isConnected: false
+      isConnected: false,
+      refreshing: false
     };
   }
 
-  componentDidMount = async () => {
+  _onRefresh = () => {
+    this.downloadDataFromDatabase();
+    this.setState({ refreshing: true, devices: [] });
+    setTimeout(() => {
+      this.setState({ refreshing: false });
+    }, 200)
+  }
+
+  async downloadDataFromDatabase() {
     try {
-      const response = await fetch('https://intelligent-home.herokuapp.com/api/devices', {
+      const response = await fetch('https://intelligent-home.herokuapp.com/get/devices', {
         method: 'GET'
       });
       const responseJson = await response.json();
@@ -60,13 +70,26 @@ export default class AddDevice extends React.Component {
     }
   }
 
+  componentDidMount = async () => {
+    this.downloadDataFromDatabase()
+    this._onRefresh();
+  }
+
   render() {
     if (this.state.isConnected) {
       return (
-        <View style={styles.loading}>
-          <ActivityIndicator size={'large'} />
-          <Text>No internet connection</Text>
-        </View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />}
+        >
+          <View style={styles.loadingNoInternet}>
+            <ActivityIndicator size={'large'} />
+            <Text>No internet connection</Text>
+          </View>
+        </ScrollView>
       );
     }
     else if (this.state.isLoading) {
@@ -110,7 +133,12 @@ export default class AddDevice extends React.Component {
     }
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}
+        refreshControl={<RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this._onRefresh}
+        />
+        }>
         <StatusBar backgroundColor="#287bef" barStyle="light-content" />
         {rowsOfTiles}
       </ScrollView>
@@ -153,6 +181,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: "#4F8EF7"
 
+  },
+  loadingNoInternet:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: (window.height)/2.5
   },
   loading: {
     flex: 1,

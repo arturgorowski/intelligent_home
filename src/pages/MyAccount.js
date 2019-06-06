@@ -31,7 +31,7 @@ export default class MyAccount extends React.Component {
             headerLeft: (
                 <Ionicons style={{ flex: 10, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
-            )
+            )            
         }
     };
 
@@ -68,8 +68,9 @@ export default class MyAccount extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <StatusBar backgroundColor="#287bef" barStyle="light-content" /> 
                 <View>
-                    <TouchableOpacity style={styles.login} onPress={() => this.props.navigation.navigate('Loggin')}>
+                    <TouchableOpacity style={styles.login}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='fingerprint' size={60} color="#4F8EF7" />
                         {
                             this.state.logged ? <Text style={styles.tileLoginName}>{this.state.user}</Text>
@@ -115,8 +116,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#edf0f4",
         height: window.height,
+        alignItems: 'center',
         justifyContent: "space-between"
     },
+
     login: {
         width: (window.width) - 4,
         height: 110,

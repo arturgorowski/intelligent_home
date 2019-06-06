@@ -6,8 +6,10 @@ import Home from './pages/Home';
 import AddDevice from './pages/AddDevice';
 
 import MyAccount from './pages/MyAccount';
-import SignIn from './pages/myAccount/login/SignIn'
-import SignUp from './pages/myAccount/login/SignUp'
+import SignIn from './pages/myAccount/login/SignIn';
+import ForgotPassword from './pages/myAccount/login/ForgotPassword';
+import SignUp from './pages/myAccount/login/SignUp';
+
 
 import Light from './pages/addDeviceScreens/Light';
 import Blinds from './pages/addDeviceScreens/Blinds';
@@ -40,6 +42,7 @@ const AppNavigator = createStackNavigator(
         MyAccount: MyAccount,
         SignIn: SignIn,
         SignUp: SignUp,
+        ForgotPassword: ForgotPassword,
         
         Light: Light,
         Blinds: Blinds,

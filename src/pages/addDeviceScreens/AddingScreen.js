@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
-import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React from 'react'
+import { View, Text, StyleSheet, Dimensions, StatusBar, Image } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('screen');
@@ -13,7 +12,7 @@ export default class AddingScreen extends React.Component {
         //textAlign: 'center',
         flex: 1
       },
-      title: 'Air conditioning',
+      title: 'Create your own device',
       headerStyle: {
         backgroundColor: '#287bef',
       },
@@ -31,7 +30,8 @@ export default class AddingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-        <Text>This is AddingScreen screen!</Text>
+        <Image style={styles.logo} source={require('../../assets/logo_transparent.png')} />
+        <Text style={styles.text}>This feature is not available in your country yet!</Text>
       </View>
     )
 
@@ -44,6 +44,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-
-
+  logo: {
+    width: 350,
+    height: 350,
+  },
+  text:{
+    fontSize: 15
+  }
 });
