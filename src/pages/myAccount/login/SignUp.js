@@ -42,35 +42,45 @@ export default class SignUp extends Component<Props> {
         isLoading: false
     }
 
-    addUserToDatabase() {
-        fetch('https://intelligent-home.herokuapp.com/post/users', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            first_name: this.state.first_name, 
-            last_name: this.state.last_name, 
-            email: this.state.email
-          })
-    
-        }).then(res => res.json())
-          .catch((error) => {
-            throw error
-          });
+    async addUserToDatabase() {
+        that = this
+        await firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                console.log(user.uid)
+                fetch('https://intelligent-home.herokuapp.com/post/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id_user: user.uid,
+                        first_name: that.state.first_name,
+                        last_name: that.state.last_name,
+                        email: that.state.email
+                    })
+                })
+                    .then(res => res.json())
+                    .then(() => that.props.navigation.navigate('Home'))
+                    .catch((error) => {
+                        throw error
+                    });
+            }
+        })
+        
     }
 
     handleLogin = () => {
         const { first_name, last_name, email, passwordOne, passwordTwo } = this.state
 
-        if (first_name === '' || last_name === '' || email === '' || passwordOne === '' ) {
+        if (first_name === '' || last_name === '' || email === '' || passwordOne === '') {
             this.setState({
                 incorrect: true,
                 errorMessage: 'All fields must be filled.'
             });
             return;
         }
-        else if (passwordOne !== passwordTwo){
+        else if (passwordOne !== passwordTwo) {
             this.setState({
                 incorrect: true,
                 errorMessage: 'Your password and confirmation password do not match.'
@@ -78,21 +88,15 @@ export default class SignUp extends Component<Props> {
             return
         }
 
-        
-
         firebase
             .auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.passwordOne)
-            .then(() => this.props.navigation.navigate('MyAccount'))
+            .then(this.addUserToDatabase())
+            //.then(() => this.props.navigation.navigate('MyAccount'))
             .catch(error => this.setState({ errorMessage: error.message }))
         this.setState({
             isLoading: false
         })
-
-        if (this.state.errorMessage === null){
-            this.addUserToDatabase()
-        }
-            
     }
 
 

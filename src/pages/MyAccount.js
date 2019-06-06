@@ -31,7 +31,7 @@ export default class MyAccount extends React.Component {
             headerLeft: (
                 <Ionicons style={{ flex: 10, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
                     onPress={() => navigation.navigate('Home')} />
-            )            
+            )
         }
     };
 
@@ -39,26 +39,32 @@ export default class MyAccount extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        that = this
-        firebase.auth().onAuthStateChanged(function (user) {
+    async componentDidMount() {
+        await this.currentUser()
+    }
+
+    currentUser = async () => {
+        try {
+            var user = await firebase.auth().currentUser
             if (user) {
-                that.setState({
+                this.setState({
                     logged: true,
                     user: user.email
                 })
             } else {
-                that.setState({
+                this.setState({
                     logged: false
                 })
             }
-        });
+        } catch (error) {
+            throw error
+        }
     }
 
     signOut = async () => {
         try {
             await firebase.auth().signOut();
-            this.props.navigation.navigate('MyAccount')
+            this.props.navigation.navigate('Home')
         } catch (error) {
             console.log(error);
         }
@@ -68,7 +74,7 @@ export default class MyAccount extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor="#287bef" barStyle="light-content" /> 
+                <StatusBar backgroundColor="#287bef" barStyle="light-content" />
                 <View>
                     <TouchableOpacity style={styles.login}>
                         <MaterialCommunityIcons style={styles.tileIcon} name='fingerprint' size={60} color="#4F8EF7" />

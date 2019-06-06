@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 
+import Main from './pages/Main'
 import Home from './pages/Home';
 
 import AddDevice from './pages/AddDevice';
@@ -35,6 +36,8 @@ import WiFiDevice from './pages/myAccount/WiFiDevice';
 
 const AppNavigator = createStackNavigator(
     {
+        Main: Main,
+
         Home: Home,
 
         AddDevice: AddDevice,

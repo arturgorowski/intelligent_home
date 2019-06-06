@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Dimensions, StatusBar, Image, RefreshControl, ScrollView, ActivityIndicator } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from 'react-native-firebase'
 
@@ -43,38 +44,27 @@ export default class Home extends React.Component {
       isLoading: true,
       isConnected: false,
       refreshing: false,
-      id_user: [],
-      email: '',
+      id_user: '',
       logged: false
     };
   }
 
-  _onRefresh = () => {
-    this.getUserEmail();
-    this.getUserDevices()
-    this.setState({ refreshing: true, devices: [] });
-    setTimeout(() => {
-      this.setState({ refreshing: false });
-    }, 200)
-  }
-
-
-
-  async getUserId() {
-    var url_userID = 'https://intelligent-home.herokuapp.com/get/userId/' + this.state.email
+  async getUserDevices() {
     try {
-      const response = await fetch(url_userID, {
+      var url = 'https://intelligent-home.herokuapp.com/get/usersDevice/' + this.state.id_user
+      const response = await fetch(url, {
         method: 'GET'
       });
       const responseJson = await response.json();
-      var id_user = responseJson;
+      var devices = responseJson;
       this.setState({
-        id_user: id_user,
+        devices: devices,
         isLoading: false,
-        isConnected: false,
-        logged: false
+        isConnected: false
       });
+      console.log(devices)
     } catch (error) {
+      console.log(error)
       this.setState({
         isLoading: false,
         isConnected: true
@@ -82,51 +72,50 @@ export default class Home extends React.Component {
     }
   }
 
-  getUserEmail() {
-    that = this
-    firebase.auth().onUserChanged(function (user) {
-      if (user) {
-        that.setState({
-          logged: true,
-          email: user.email
-        })
-        that.getUserId()
-      } else {
-        that.setState({
-          logged: false
-        })
-      }
-    })
-
-  }
-
-  componentDidMount = async () => {
-    this.getUserEmail()
-    this.getUserDevices()
-  }
-
-  async getUserDevices() {
-    if (this.state.id_user.length > 0) {
-      var url = 'https://intelligent-home.herokuapp.com/get/userDevice/' + this.state.id_user.id_user
-      try {
-        const response = await fetch(url, {
-          method: 'GET'
-        });
-        const responseJson = await response.json();
-        var devices = responseJson;
-        this.setState({
-          devices: devices,
-          isLoading: false,
-          isConnected: false
-        });
-      } catch (error) {
-        this.setState({
-          isLoading: false,
-          isConnected: true
-        });
-      }
+  onRefresh = async () => {
+    try {
+      await this.currentUser()
+        .then(
+          this.setState({
+            refreshing: true,
+            devices: [],
+            isLoading: false,
+            isConnected: false
+          }),
+          setTimeout(() => {
+            this.setState({ refreshing: false });
+          }, 200)
+        )
+    } catch (error) {
+      console.log(error)
+      throw error
     }
+  }
 
+  currentUser = async () => {
+    try {
+      var user = await firebase.auth().currentUser
+      if (user) {
+        this.setState({
+          id_user: user.uid,
+          logged: true,
+
+        })
+        await this.getUserDevices()
+      } else {
+        this.setState({
+          logged: false,
+          isLoading: false
+        })
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async componentDidMount() {
+    await this.currentUser()
+    await this.onRefresh()
   }
 
   render() {
@@ -136,7 +125,7 @@ export default class Home extends React.Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
+              onRefresh={this.onRefresh}
             />}
         >
           <View style={styles.loadingNoInternet}>
@@ -174,28 +163,40 @@ export default class Home extends React.Component {
         );
         row = [];
       }
-      /*if (i === this.state.devices.length - 1) {
+      if (i === this.state.devices.length - 1) {
         rowsOfTiles.push(
           <View style={styles.rowOfTiles} key={i}>
             {row}
-            <TouchableOpacity style={styles.tile} onPress={() => this.props.navigation.navigate('AddingScreen')}>
-              <Text style={styles.tilePlus}>+</Text>
-            </TouchableOpacity>
           </View>
         );
-      }*/
+      }
     }
 
     return (
-      <ScrollView style={styles.container}
-        refreshControl={<RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this._onRefresh}
-        />
-        }>
-        <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-        {rowsOfTiles}
-      </ScrollView>
+      this.state.logged ?
+        <ScrollView style={styles.container}
+          refreshControl={<RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+          }>
+          <StatusBar backgroundColor="#287bef" barStyle="light-content" />
+          {rowsOfTiles}
+        </ScrollView>
+        : <ScrollView style={styles.container}
+          refreshControl={<RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+          }>
+          <StatusBar backgroundColor="#287bef" barStyle="light-content" />
+          <View style={styles.container1}>
+            <Image style={styles.logo} source={require('../assets/logo_transparent.png')} />
+            <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignIn')}>
+              <Text style={styles.tileTextLog}>Log in</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
     );
   }
 }
@@ -203,6 +204,18 @@ export default class Home extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  container1: {
+    flex: 1,
+    backgroundColor: "#edf0f4",
+    height: window.height,
+    //justifyContent: "space-between"
+    alignItems: 'center'
+  },
+  logo: {
+    width: 250,
+    height: 250,
   },
 
   tile: {
@@ -246,5 +259,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  logIn: {
+    width: (window.width) - 100,
+    height: 40,
+    marginBottom: 15,
+    borderRadius: 30,
+    borderWidth: 0.1,
+    borderColor: '#838c99',
+    backgroundColor: "white",
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    alignSelf: 'center'
+},
 });

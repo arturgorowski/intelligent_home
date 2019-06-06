@@ -25,7 +25,7 @@ export default class SignIn extends Component<Props> {
             },
             headerLeft: (
                 <Ionicons style={{ flex: 1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-                    onPress={() => navigation.navigate('MyAccount')} />
+                    onPress={() => navigation.goBack()} />
             )
         }
     };
@@ -53,7 +53,7 @@ export default class SignIn extends Component<Props> {
         firebase
             .auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => this.props.navigation.navigate('MyAccount'))
+            .then(() => this.props.navigation.navigate('Home'))
             .catch(error => this.setState({ errorMessage: error.message }))
         this.setState({
             isLoading: false

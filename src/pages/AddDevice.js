@@ -149,6 +149,7 @@ export default class AddDevice extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: window.height
   },
 
   tile: {

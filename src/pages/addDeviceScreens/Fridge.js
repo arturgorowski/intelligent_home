@@ -13,7 +13,7 @@ export default class Fridge extends React.Component {
         //textAlign: 'center',
         flex: 1
       },
-      title: 'Sound',
+      title: 'Fridge',
       headerStyle: {
         backgroundColor: '#287bef',
       },
@@ -23,7 +23,7 @@ export default class Fridge extends React.Component {
       },
       headerLeft: (
         <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-            onPress={() => navigation.navigate('AddDevice')} />
+            onPress={() => navigation.goBack()} />
     )
     }
   };

@@ -23,7 +23,7 @@ export default class Blinds extends React.Component {
       },
       headerLeft: (
         <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-            onPress={() => navigation.navigate('AddDevice')} />
+            onPress={() => navigation.goBack()} />
     )
     }
   };

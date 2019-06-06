@@ -13,7 +13,7 @@ export default class TV extends React.Component {
         //textAlign: 'center',
         flex: 1
       },
-      title: 'Sound',
+      title: 'TV',
       headerStyle: {
         backgroundColor: '#287bef',
       },
@@ -23,7 +23,7 @@ export default class TV extends React.Component {
       },
       headerLeft: (
         <Ionicons style={{ marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-            onPress={() => navigation.navigate('AddDevice')} />
+            onPress={() => navigation.goBack()} />
     )
     }
   };
