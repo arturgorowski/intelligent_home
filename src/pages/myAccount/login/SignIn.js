@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TextInput, View, Image, ActivityIndicator, Dimensions, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Image, StatusBar, Dimensions, KeyboardAvoidingView } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firebase from 'react-native-firebase'
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('screen');
 type Props = {};
@@ -10,23 +9,7 @@ type Props = {};
 export default class SignIn extends Component<Props> {
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitleStyle: {
-                alignSelf: 'center',
-                // textAlign: 'center',
-                flex: 1
-            },
-            title: 'Sign In',
-            headerStyle: {
-                backgroundColor: '#287bef',
-            },
-            headerTintColor: '#fff',
-            headerTintStyle: {
-                //fontWeight: 'bold',
-            },
-            headerLeft: (
-                <Ionicons style={{ flex: 1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-                    onPress={() => navigation.goBack()} />
-            )
+            header: null
         }
     };
     constructor() {
@@ -61,60 +44,52 @@ export default class SignIn extends Component<Props> {
     }
 
     render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.container}>
-                    <Text>Loading</Text>
-                    <ActivityIndicator size="large" />
+        return (
+            <KeyboardAvoidingView behavior="position" style={styles.container}>
+                <StatusBar backgroundColor="#edf0f4" barStyle="dark-content" />
+                <View style={styles.input}>
+                    <Image style={styles.logo} source={require('../../../assets/logo_transparent.png')} />
+
+                    <TextInput
+                        style={styles.textInput}
+                        keyboardType='email-address'
+                        returnKeyType="next"
+                        autoCapitalize="none"
+                        placeholder="Email"
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
+                        onSubmitEditing={() => this.passwordInput.focus()}
+                    />
+                    <TextInput
+                        secureTextEntry
+                        returnKeyType="go"
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        placeholder="Password"
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                        ref={(input) => this.passwordInput = input}
+                    />
+                    {this.state.errorMessage &&
+                        <Text style={{ color: 'red' }}>
+                            {this.state.errorMessage}
+                        </Text>}
                 </View>
-            )
-        } else {
-            return (
-                <KeyboardAvoidingView behavior="position" style={styles.container}>
-                    <View style={styles.input}>
-                        <Image style={styles.logo} source={require('../../../assets/logo_transparent.png')} />
+                <View>
+                    <TouchableOpacity style={styles.logIn} onPress={this.handleLogin}>
+                        <Text style={styles.tileTextLog}>Log in</Text>
+                    </TouchableOpacity>
 
-                        <TextInput
-                            style={styles.textInput}
-                            keyboardType='email-address'
-                            returnKeyType="next"
-                            autoCapitalize="none"
-                            placeholder="Email"
-                            onChangeText={email => this.setState({ email })}
-                            value={this.state.email}
-                            onSubmitEditing={() => this.passwordInput.focus()}
-                        />
-                        <TextInput
-                            secureTextEntry
-                            returnKeyType="go"
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            placeholder="Password"
-                            onChangeText={password => this.setState({ password })}
-                            value={this.state.password}
-                            ref={(input) => this.passwordInput = input}
-                        />
-                        {this.state.errorMessage &&
-                            <Text style={{ color: 'red' }}>
-                                {this.state.errorMessage}
-                            </Text>}
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.logIn} onPress={this.handleLogin}>
-                            <Text style={styles.tileTextLog}>Log in</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignUp')}>
+                        <Text>Don't have an account? Sign Up</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignUp')}>
-                            <Text>Don't have an account? Sign Up</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.passwordForgot} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-                            <Text>Forgot Password?</Text>
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAvoidingView>
-            )
-        }
+                    <TouchableOpacity style={styles.passwordForgot} onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+                        <Text>Forgot Password?</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        )
     }
 }
 const styles = StyleSheet.create({
@@ -129,7 +104,6 @@ const styles = StyleSheet.create({
         height: 250,
     },
     input: {
-        //marginTop: 200,
         alignItems: "center"
     },
     textInput: {
@@ -144,7 +118,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignSelf: 'center'
     },
-    passwordForgot:{
+    passwordForgot: {
         width: (window.width) - 200,
         height: 40,
         marginBottom: 15,

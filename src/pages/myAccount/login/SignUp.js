@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, TextInput, View, Image, ActivityIndicator, KeyboardAvoidingView, Dimensions } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Image, StatusBar, KeyboardAvoidingView, Dimensions } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firebase from 'react-native-firebase'
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const window = Dimensions.get('screen');
 
@@ -10,23 +9,7 @@ type Props = {};
 export default class SignUp extends Component<Props> {
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitleStyle: {
-                alignSelf: 'center',
-                // textAlign: 'center',
-                flex: 1
-            },
-            title: 'Sign Up',
-            headerStyle: {
-                backgroundColor: '#287bef',
-            },
-            headerTintColor: '#fff',
-            headerTintStyle: {
-                //fontWeight: 'bold',
-            },
-            headerLeft: (
-                <Ionicons style={{ flex: 1, marginLeft: 15 }} name="ios-arrow-back" size={30} color="#fff"
-                    onPress={() => navigation.navigate('MyAccount')} />
-            )
+            header: null
         }
     };
     constructor() {
@@ -61,13 +44,12 @@ export default class SignUp extends Component<Props> {
                     })
                 })
                     .then(res => res.json())
-                    .then(() => that.props.navigation.navigate('Home'))
+                    .then(() => that.props.navigation.push('MyAccount'))
                     .catch((error) => {
                         throw error
                     });
             }
         })
-        
     }
 
     handleLogin = () => {
@@ -102,89 +84,81 @@ export default class SignUp extends Component<Props> {
 
 
     render() {
-        if (this.state.isLoading) {
-            return (
-                <View style={styles.container}>
-                    <Text>Loading</Text>
-                    <ActivityIndicator size="large" />
+        return (
+            <KeyboardAvoidingView behavior='position' style={styles.container}>
+                <StatusBar backgroundColor="#edf0f4" barStyle="dark-content" />
+                <View style={styles.input}>
+                    <Image style={styles.logo} source={require('../../../assets/logo_transparent.png')} />
+                    <TextInput
+                        style={styles.textInput}
+                        returnKeyType="next"
+                        autoCapitalize='none'
+                        placeholder="First name"
+                        onChangeText={first_name => this.setState({ first_name })}
+                        value={this.state.first_name}
+                        onSubmitEditing={() => this.last_name.focus()}
+                    />
+                    <TextInput
+                        style={styles.textInput}
+                        returnKeyType="next"
+                        autoCapitalize="none"
+                        placeholder="Last name"
+                        onChangeText={last_name => this.setState({ last_name })}
+                        value={this.state.last_name}
+                        ref={(input) => this.last_name = input}
+                        onSubmitEditing={() => this.email.focus()}
+                    />
+                    <TextInput
+                        style={styles.textInput}
+                        keyboardType='email-address'
+                        returnKeyType="next"
+                        autoCapitalize="none"
+                        placeholder="Email"
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
+                        ref={(input) => this.email = input}
+                        onSubmitEditing={() => this.passwordOneInput.focus()}
+                    />
+                    <TextInput
+                        secureTextEntry
+                        returnKeyType="next"
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        placeholder="Password"
+                        onChangeText={passwordOne => this.setState({ passwordOne })}
+                        value={this.state.passwordOne}
+                        ref={(input) => this.passwordOneInput = input}
+                        onSubmitEditing={() => this.passwordTwoInput.focus()}
+                    />
+                    <TextInput
+                        secureTextEntry
+                        returnKeyType="go"
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        placeholder="Confirm Password"
+                        onChangeText={passwordTwo => this.setState({ passwordTwo })}
+                        value={this.state.passwordTwo}
+                        ref={(input) => this.passwordTwoInput = input}
+                    />
+                    {this.state.errorMessage &&
+                        <Text style={{ color: 'red' }}>
+                            {this.state.errorMessage}
+                        </Text>}
+
                 </View>
-            )
-        } else {
-            return (
-                <KeyboardAvoidingView behavior='position' style={styles.container}>
-                    <View style={styles.input}>
-                        <Image style={styles.logo} source={require('../../../assets/logo_transparent.png')} />
-                        <TextInput
-                            style={styles.textInput}
-                            returnKeyType="next"
-                            autoCapitalize='none'
-                            placeholder="First name"
-                            onChangeText={first_name => this.setState({ first_name })}
-                            value={this.state.first_name}
-                            onSubmitEditing={() => this.last_name.focus()}
-                        />
-                        <TextInput
-                            style={styles.textInput}
-                            returnKeyType="next"
-                            autoCapitalize="none"
-                            placeholder="Last name"
-                            onChangeText={last_name => this.setState({ last_name })}
-                            value={this.state.last_name}
-                            ref={(input) => this.last_name = input}
-                            onSubmitEditing={() => this.email.focus()}
-                        />
-                        <TextInput
-                            style={styles.textInput}
-                            keyboardType='email-address'
-                            returnKeyType="next"
-                            autoCapitalize="none"
-                            placeholder="Email"
-                            onChangeText={email => this.setState({ email })}
-                            value={this.state.email}
-                            ref={(input) => this.email = input}
-                            onSubmitEditing={() => this.passwordOneInput.focus()}
-                        />
-                        <TextInput
-                            secureTextEntry
-                            returnKeyType="next"
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            placeholder="Password"
-                            onChangeText={passwordOne => this.setState({ passwordOne })}
-                            value={this.state.passwordOne}
-                            ref={(input) => this.passwordOneInput = input}
-                            onSubmitEditing={() => this.passwordTwoInput.focus()}
-                        />
-                        <TextInput
-                            secureTextEntry
-                            returnKeyType="go"
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            placeholder="Confirm Password"
-                            onChangeText={passwordTwo => this.setState({ passwordTwo })}
-                            value={this.state.passwordTwo}
-                            ref={(input) => this.passwordTwoInput = input}
-                        />
-                        {this.state.errorMessage &&
-                            <Text style={{ color: 'red' }}>
-                                {this.state.errorMessage}
-                            </Text>}
+                <View>
+                    <TouchableOpacity style={styles.logIn} onPress={this.handleLogin}>
+                        <Text style={styles.tileTextLog}>Sign Up</Text>
+                    </TouchableOpacity>
 
-                    </View>
-                    <View>
-                        <TouchableOpacity style={styles.logIn} onPress={this.handleLogin}>
-                            <Text style={styles.tileTextLog}>Sign Up</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignIn')}>
-                            <Text>Already have an account? Sign In</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.push('SignIn')}>
+                        <Text>Already have an account? Sign In</Text>
+                    </TouchableOpacity>
 
 
-                    </View>
-                </KeyboardAvoidingView>
-            )
-        }
+                </View>
+            </KeyboardAvoidingView>
+        )
     }
 }
 

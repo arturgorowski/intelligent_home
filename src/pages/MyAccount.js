@@ -43,28 +43,27 @@ export default class MyAccount extends React.Component {
         await this.currentUser()
     }
 
-    currentUser = async () => {
-        try {
-            var user = await firebase.auth().currentUser
+    async currentUser() {
+        that = this
+        await firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                this.setState({
+                that.setState({
                     logged: true,
                     user: user.email
                 })
             } else {
-                this.setState({
+                that.setState({
                     logged: false
                 })
             }
-        } catch (error) {
-            throw error
-        }
+        })
+
     }
 
     signOut = async () => {
         try {
             await firebase.auth().signOut();
-            this.props.navigation.navigate('Home')
+            this.props.navigation.push('Main')
         } catch (error) {
             console.log(error);
         }

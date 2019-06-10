@@ -4,14 +4,15 @@ import { createAppContainer, createStackNavigator } from 'react-navigation';
 import Main from './pages/Main'
 import Home from './pages/Home';
 
-import AddDevice from './pages/AddDevice';
-
 import MyAccount from './pages/MyAccount';
 import SignIn from './pages/myAccount/login/SignIn';
 import ForgotPassword from './pages/myAccount/login/ForgotPassword';
 import SignUp from './pages/myAccount/login/SignUp';
+import Settings from './pages/myAccount/Settings';
+import BTdevice from './pages/myAccount/BTdevice';
+import WiFiDevice from './pages/myAccount/WiFiDevice';
 
-
+import AddDevice from './pages/AddDevice';
 import Light from './pages/addDeviceScreens/Light';
 import Blinds from './pages/addDeviceScreens/Blinds';
 import AirConditioning from './pages/addDeviceScreens/AirConditioning';
@@ -29,10 +30,9 @@ import Washer from './pages/addDeviceScreens/Washer';
 import Oven from './pages/addDeviceScreens/Oven';
 import Printer from './pages/addDeviceScreens/Printer';
 import AddingScreen from './pages/addDeviceScreens/AddingScreen';
+import AddDeviceModal from './pages/addDeviceScreens/AddDeviceModal';
+import DeleteDeviceModal from './pages/addDeviceScreens/DeleteDeviceModal';
 
-import Settings from './pages/myAccount/Settings';
-import BTdevice from './pages/myAccount/BTdevice';
-import WiFiDevice from './pages/myAccount/WiFiDevice';
 
 const AppNavigator = createStackNavigator(
     {
@@ -46,7 +46,7 @@ const AppNavigator = createStackNavigator(
         SignIn: SignIn,
         SignUp: SignUp,
         ForgotPassword: ForgotPassword,
-        
+
         Light: Light,
         Blinds: Blinds,
         'Air conditioning': AirConditioning,
@@ -70,10 +70,29 @@ const AppNavigator = createStackNavigator(
         WiFiDevice: WiFiDevice
     },
     {
-        initialRouteName: "Home"
-    });
+        initialRouteName: "Main"
+    }
+);
 
-const AppContainer = createAppContainer(AppNavigator);
+const RootStack = createStackNavigator(
+    {
+        Main: {
+            screen: AppNavigator,
+        },
+        AddDeviceModal: {
+            screen: AddDeviceModal,
+        },
+        DeleteDeviceModal: {
+            screen: DeleteDeviceModal,
+        },
+    },
+    {
+        mode: 'modal',
+        headerMode: 'none',
+    }
+);
+
+const AppContainer = createAppContainer(RootStack);
 
 export default class App extends React.Component {
     render() {

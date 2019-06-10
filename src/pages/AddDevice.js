@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import _ from 'lodash';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import firebase from 'react-native-firebase'
 
 const window = Dimensions.get('screen');
 
@@ -38,7 +39,8 @@ export default class AddDevice extends React.Component {
       devices: [],
       isLoading: true,
       isConnected: false,
-      refreshing: false
+      refreshing: false,
+      id_user: ''
     };
   }
 
@@ -70,9 +72,23 @@ export default class AddDevice extends React.Component {
     }
   }
 
+  currentUser = async () => {
+    try {
+      var user = await firebase.auth().currentUser
+      if (user) {
+        this.setState({
+          id_user: user.uid,
+        })
+      }
+    } catch (error) {
+      //throw error
+    }
+  }
+
   componentDidMount = async () => {
-    this.downloadDataFromDatabase()
-    this._onRefresh();
+    await this.downloadDataFromDatabase()
+    this._onRefresh()
+    this.currentUser()
   }
 
   render() {
@@ -105,7 +121,17 @@ export default class AddDevice extends React.Component {
     for (let i = 0; i < this.state.devices.length; i++) {
       row.push(
         <View key={i}>
-          <TouchableOpacity style={styles.tile} onPress={() => this.props.navigation.navigate(this.state.devices[i].name)}>
+          <TouchableOpacity style={styles.tile}
+            onPress={() => this.props.navigation.navigate(this.state.devices[i].name, {
+              icon: this.state.devices[i].icon
+            })}
+            onLongPress={() => this.props.navigation.navigate('AddDeviceModal', {
+              icon: this.state.devices[i].icon,
+              name: this.state.devices[i].name,
+              id_device: this.state.devices[i].id_device,
+              id_user: this.state.id_user
+            })}
+          >
             <MaterialCommunityIcons style={styles.tileIcon} name={this.state.devices[i].icon} size={60} color="#4F8EF7" />
             <Text style={styles.tileText}>{this.state.devices[i].name}</Text>
           </TouchableOpacity>
@@ -183,11 +209,11 @@ const styles = StyleSheet.create({
     color: "#4F8EF7"
 
   },
-  loadingNoInternet:{
+  loadingNoInternet: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: (window.height)/2.5
+    paddingTop: (window.height) / 2.5
   },
   loading: {
     flex: 1,

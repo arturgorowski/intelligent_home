@@ -67,7 +67,7 @@ export default class Home extends React.Component {
       console.log(error)
       this.setState({
         isLoading: false,
-        isConnected: true
+        //isConnected: true
       });
     }
   }
@@ -114,7 +114,7 @@ export default class Home extends React.Component {
   }
 
   async componentDidMount() {
-    await this.currentUser()
+    //await this.currentUser()
     await this.onRefresh()
   }
 
@@ -148,7 +148,15 @@ export default class Home extends React.Component {
     for (let i = 0; i < this.state.devices.length; i++) {
       row.push(
         <View key={i}>
-          <TouchableOpacity style={styles.tile} onPress={() => this.props.navigation.navigate(this.state.devices[i].name)}>
+          <TouchableOpacity style={styles.tile} 
+          onPress={() => this.props.navigation.navigate(this.state.devices[i].name)}
+          onLongPress={() => this.props.navigation.navigate('DeleteDeviceModal',{
+            icon: this.state.devices[i].icon,
+            name: this.state.devices[i].name,
+            id_device: this.state.devices[i].id_device,
+            id_user: this.state.id_user
+          })}
+          >
             <MaterialCommunityIcons style={styles.tileIcon} name={this.state.devices[i].icon} size={60} color="#4F8EF7" />
             <Text style={styles.tileText}>{this.state.devices[i].name}</Text>
           </TouchableOpacity>
@@ -173,30 +181,15 @@ export default class Home extends React.Component {
     }
 
     return (
-      this.state.logged ?
-        <ScrollView style={styles.container}
-          refreshControl={<RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.onRefresh}
-          />
-          }>
-          <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-          {rowsOfTiles}
-        </ScrollView>
-        : <ScrollView style={styles.container}
-          refreshControl={<RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this.onRefresh}
-          />
-          }>
-          <StatusBar backgroundColor="#287bef" barStyle="light-content" />
-          <View style={styles.container1}>
-            <Image style={styles.logo} source={require('../assets/logo_transparent.png')} />
-            <TouchableOpacity style={styles.logIn} onPress={() => this.props.navigation.navigate('SignIn')}>
-              <Text style={styles.tileTextLog}>Log in</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+      <ScrollView style={styles.container}
+        refreshControl={<RefreshControl
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh}
+        />
+        }>
+        <StatusBar backgroundColor="#287bef" barStyle="light-content" />
+        {rowsOfTiles}
+      </ScrollView>
     );
   }
 }
@@ -271,5 +264,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     alignSelf: 'center'
-},
+  },
 });
